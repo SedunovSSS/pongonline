@@ -9,9 +9,11 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
 s.listen(1)
 conn, addr = s.accept()
+name1 = conn.recv(4096)
 print('Connected by', addr)
 conn.send("1".encode("utf-8"))
 conn1, addr1 = s.accept()
+name2 = conn1.recv(4096)
 print('Connected by', addr1)
 conn1.send("2".encode("utf-8"))
 width, height = 820, 640
@@ -34,7 +36,7 @@ ball_x = width // 2
 ball_y = height // 2
 
 while True:
-    arr = ([width, height, score1, score2, rect1_x, rect2_x, rect1_y, rect2_y, color_ball, color_player_one, color_player_two, ball_rect, ball, dx, dy, ball_x, ball_y, width_w, height_h])
+    arr = ([width, height, score1, score2, rect1_x, rect2_x, rect1_y, rect2_y, color_ball, color_player_one, color_player_two, ball_rect, ball, dx, dy, ball_x, ball_y, width_w, height_h, name1, name2])
     data_string = pickle.dumps(arr)
     conn.send(data_string)
     conn1.send(data_string)

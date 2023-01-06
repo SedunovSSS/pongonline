@@ -5,7 +5,7 @@ from menu import main
 
 ClientSocket = socket.socket()
 pygame.init()
-host, port = main()
+host, port, name = main()
 num_client = None
 port = int(port)
 pygame.quit()
@@ -16,6 +16,7 @@ try:
 except socket.error as e:
     print(str(e))
 
+ClientSocket.send(name.encode("utf-8"))
 dat = ClientSocket.recv(4096)
 if dat.decode("utf-8") == "1":
     num_client = 1
@@ -28,6 +29,9 @@ pygame.init()
 width, height = data_arr[0], data_arr[1]
 radius = 10
 width_w, height_h = data_arr[17], data_arr[18]
+
+name1, name2 = data_arr[19], data_arr[20]
+name1, name2 = name1.decode("utf-8"), name2.decode("utf-8")
 
 fps = 120
 speed = 5
@@ -51,16 +55,19 @@ ball.y = data_arr[16]
 font = pygame.font.SysFont('Arial', 30, bold=True)
 font1 = pygame.font.SysFont('Arial', 15, bold=True)
 pygame.display.set_caption("PONG")
+img = pygame.image.load("img/space.jpg")
+sound = pygame.mixer.Sound("sounds/blast.mp3")
 running = True
 
 while running:
     dx, dy = data_arr[13], data_arr[14]
     score1, score2 = data_arr[2], data_arr[3]
     fps_int = int(clock.get_fps())
-    render1 = font.render(str(score1), False, pygame.Color("white"))
-    render2 = font.render(str(score2), False, pygame.Color("white"))
+    render1 = font.render(f"{name1}: {str(score1)}", False, pygame.Color("white"))
+    render2 = font.render(f"{name2}: {str(score2)}", False, pygame.Color("white"))
     render_fps = font1.render(f"FPS: {str(fps_int)}", False, pygame.Color("white"))
     sc.fill('black')
+    sc.blit(img, (0, 0))
     player_one = pygame.draw.rect(sc, color_player_one, rect1)
     player_two = pygame.draw.rect(sc, color_player_two, rect2)
     for i in pygame.event.get():
@@ -69,14 +76,16 @@ while running:
     keys = pygame.key.get_pressed()
     ball.x += speed_ball * dx
     ball.y += speed_ball * dy
-    if ball.y <= 0:
+    if ball.y <= 0 and not ball.colliderect(rect1):
         ClientSocket.send("dy1".encode("utf-8"))
-    elif ball.y >= height:
+    elif ball.y >= height and not ball.colliderect(rect2):
         ClientSocket.send("dy-1".encode("utf-8"))
     elif ball.colliderect(rect1):
         ClientSocket.send("dx1".encode("utf-8"))
+        sound.play()
     elif ball.colliderect(rect2):
         ClientSocket.send("dx-1".encode("utf-8"))
+        sound.play()
 
     elif keys[pygame.K_w] and rect1.y >= 0 and num_client == 1:
         ClientSocket.send("W".encode("utf-8"))
@@ -107,7 +116,7 @@ while running:
 
     sc.blit(render_fps, (0, height - width_w))
     sc.blit(render1, (0, 0))
-    sc.blit(render2, (width - width_w * 3, 0))
+    sc.blit(render2, (width - width_w * len(str(score2))-len(name2)*10-40, 0))
     pygame.draw.circle(sc, color_ball, ball.center, radius)
     pygame.display.flip()
     clock.tick(fps)
