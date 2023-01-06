@@ -63,8 +63,8 @@ while running:
     dx, dy = data_arr[13], data_arr[14]
     score1, score2 = data_arr[2], data_arr[3]
     fps_int = int(clock.get_fps())
-    render1 = font.render(f"{name1}: {str(score1)}", False, pygame.Color("white"))
-    render2 = font.render(f"{name2}: {str(score2)}", False, pygame.Color("white"))
+    render1 = font.render(f"{name1.upper()}: {str(score1)}", False, pygame.Color("white"))
+    render2 = font.render(f"{name2.upper()}: {str(score2)}", False, pygame.Color("white"))
     render_fps = font1.render(f"FPS: {str(fps_int)}", False, pygame.Color("white"))
     sc.fill('black')
     sc.blit(img, (0, 0))
@@ -116,7 +116,7 @@ while running:
 
     sc.blit(render_fps, (0, height - width_w))
     sc.blit(render1, (0, 0))
-    sc.blit(render2, (width - width_w * len(str(score2))-len(name2)*10-50, 0))
+    sc.blit(render2, (width - width_w * len(str(score2))-len(name2)*15-50, 0))
     pygame.draw.circle(sc, color_ball, ball.center, radius)
     pygame.display.flip()
     clock.tick(fps)
