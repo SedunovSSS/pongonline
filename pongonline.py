@@ -116,7 +116,7 @@ while running:
 
     sc.blit(render_fps, (0, height - width_w))
     sc.blit(render1, (0, 0))
-    sc.blit(render2, (width - width_w * len(str(score2))-len(name2)*10-40, 0))
+    sc.blit(render2, (width - width_w * len(str(score2))-len(name2)*10-50, 0))
     pygame.draw.circle(sc, color_ball, ball.center, radius)
     pygame.display.flip()
     clock.tick(fps)
