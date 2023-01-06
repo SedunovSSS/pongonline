@@ -98,10 +98,3 @@ def main():
         screen.blit(button_surface, (width // 2 + 80, 410))
         pg.display.flip()
         clock.tick(30)
-
-
-if __name__ == '__main__':
-    pg.init()
-    ip, port, name = main()
-    print(ip, port, name)
-    pg.quit()
