@@ -1,14 +1,18 @@
 import socket
 import pickle
 import pygame
+from menu import main
 
 ClientSocket = socket.socket()
-host = input("IP: ")
-port = int(input("PORT: "))
+pygame.init()
+host, port = main()
 num_client = None
+port = int(port)
+pygame.quit()
 
 try:
     ClientSocket.connect((host, port))
+    print("Connected")
 except socket.error as e:
     print(str(e))
 
@@ -17,9 +21,10 @@ if dat.decode("utf-8") == "1":
     num_client = 1
 elif dat.decode("utf-8") == "2":
     num_client = 2
-pygame.init()
+
 data = ClientSocket.recv(4096)
 data_arr = pickle.loads(data)
+pygame.init()
 width, height = data_arr[0], data_arr[1]
 radius = 10
 width_w, height_h = data_arr[17], data_arr[18]
