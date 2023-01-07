@@ -33,8 +33,7 @@ width_w, height_h = data_arr[17], data_arr[18]
 name1, name2 = data_arr[19], data_arr[20]
 name1, name2 = name1.decode("utf-8"), name2.decode("utf-8")
 
-fps = 120
-speed = 5
+fps = data_arr[21]
 speed_ball = 2.5
 
 rect1 = pygame.Rect(width // 2, height // 2 - 100, width_w, height_h)
@@ -54,7 +53,7 @@ ball.x = data_arr[15]
 ball.y = data_arr[16]
 font = pygame.font.SysFont('Arial', 30, bold=True)
 font1 = pygame.font.SysFont('Arial', 15, bold=True)
-pygame.display.set_caption("PONG")
+pygame.display.set_caption(data_arr[22])
 img = pygame.image.load("img/space.jpg")
 sound = pygame.mixer.Sound("sounds/blast.mp3")
 running = True
@@ -80,10 +79,10 @@ while running:
         ClientSocket.send("dy1".encode("utf-8"))
     elif ball.y >= height and not ball.colliderect(rect2):
         ClientSocket.send("dy-1".encode("utf-8"))
-    elif ball.colliderect(rect1):
+    elif ball.colliderect(rect1) and (ball.bottom > rect1.y or ball.y < rect1.bottom):
         ClientSocket.send("dx1".encode("utf-8"))
         sound.play()
-    elif ball.colliderect(rect2):
+    elif ball.colliderect(rect2) and (ball.bottom > rect2.y or ball.y < rect2.bottom):
         ClientSocket.send("dx-1".encode("utf-8"))
         sound.play()
 

@@ -24,7 +24,7 @@ rect1_x = 0
 rect1_y = height_h
 rect2_x = width - width_w
 rect2_y = height_h
-speed = 5
+speed = 10
 radius = 10
 color_ball = randrange(0, 256), randrange(0, 256), randrange(0, 256)
 color_player_one = randrange(0, 256), randrange(0, 256), randrange(0, 256)
@@ -34,9 +34,11 @@ ball = randrange(ball_rect, width - ball_rect), height // 2, ball_rect, ball_rec
 dx, dy = 1, -1
 ball_x = width // 2
 ball_y = height // 2
+fps = 120
+caption = "PONG"
 
 while True:
-    arr = ([width, height, score1, score2, rect1_x, rect2_x, rect1_y, rect2_y, color_ball, color_player_one, color_player_two, ball_rect, ball, dx, dy, ball_x, ball_y, width_w, height_h, name1, name2])
+    arr = ([width, height, score1, score2, rect1_x, rect2_x, rect1_y, rect2_y, color_ball, color_player_one, color_player_two, ball_rect, ball, dx, dy, ball_x, ball_y, width_w, height_h, name1, name2, fps, caption])
     data_string = pickle.dumps(arr)
     conn.send(data_string)
     conn1.send(data_string)
@@ -68,4 +70,3 @@ while True:
         dy = 1
     if data.decode("utf-8") == "dy-1" or data1.decode("utf-8") == "dy-1":
         dy = -1
-
