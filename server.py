@@ -24,7 +24,8 @@ rect1_x = 0
 rect1_y = height_h
 rect2_x = width - width_w
 rect2_y = height_h
-speed = 10
+speed = 5
+speed_ball = 2.5
 radius = 10
 color_ball = randrange(0, 256), randrange(0, 256), randrange(0, 256)
 color_player_one = randrange(0, 256), randrange(0, 256), randrange(0, 256)
@@ -38,7 +39,7 @@ fps = 120
 caption = "PONG"
 
 while True:
-    arr = ([width, height, score1, score2, rect1_x, rect2_x, rect1_y, rect2_y, color_ball, color_player_one, color_player_two, ball_rect, ball, dx, dy, ball_x, ball_y, width_w, height_h, name1, name2, fps, caption])
+    arr = ([width, height, score1, score2, rect1_x, rect2_x, rect1_y, rect2_y, color_ball, color_player_one, color_player_two, ball_rect, ball, dx, dy, ball_x, ball_y, width_w, height_h, name1, name2, fps, caption, speed_ball])
     data_string = pickle.dumps(arr)
     conn.send(data_string)
     conn1.send(data_string)
